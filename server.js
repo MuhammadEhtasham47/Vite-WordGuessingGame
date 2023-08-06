@@ -1,17 +1,56 @@
-const express = require('express');
-const path = require('path');
-const app = express();
+import express from 'express';
+import { createServer as createViteServer } from 'vite';
+import { resolve } from 'path';
 
-// Serve static files from the 'dist' directory
-app.use(express.static(path.join(__dirname, 'dist')));
+async function createServer() {
+    const app = express();
 
-// Catch-all route to serve the index.html file
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+    // Use Vite only in development mode
+    if (process.env.NODE_ENV === 'development') {
+        const vite = await createViteServer({
+            server: {
+                middlewareMode: 'ssr', // or 'html'
+            },
+        });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+        app.use(vite.middlewares);
+    } else {
+        // In production mode, serve static files from the 'dist' directory
+        app.use(express.static(resolve(__dirname, 'dist')));
+    }
+
+    // Catch-all route to serve the index.html file
+    app.get('*', async (req, res) => {
+        try {
+            const url = req.originalUrl;
+
+            // Handle SSR or HTML mode here
+            const template = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Vite App</title>
+          <link rel="stylesheet" href="/@fs/vite.css">
+        </head>
+        <body>
+          <div id="app"></div>
+          <script type="module" src="/@fs/main.js"></script>
+        </body>
+        </html>
+      `;
+
+            res.status(200).send(template);
+        } catch (e) {
+            vite.ssrFixStacktrace(e);
+            console.error(e);
+            res.status(500).end(e.message);
+        }
+    });
+
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
+
+createServer();
