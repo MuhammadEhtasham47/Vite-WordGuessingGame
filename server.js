@@ -1,56 +1,26 @@
+import { createServer } from 'http';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
-import { resolve } from 'path';
 
-async function createServer() {
-    const app = express();
+const app = express();
 
-    // Use Vite only in development mode
-    if (process.env.NODE_ENV === 'development') {
-        const vite = await createViteServer({
-            server: {
-                middlewareMode: 'ssr', // or 'html'
-            },
-        });
+// Get the current module's URL
+const __filename = fileURLToPath(import.meta.url);
 
-        app.use(vite.middlewares);
-    } else {
-        // In production mode, serve static files from the 'dist' directory
-        app.use(express.static(resolve(__dirname, 'dist')));
-    }
+// Get the directory name from the file path
+const __dirname = dirname(__filename);
 
-    // Catch-all route to serve the index.html file
-    app.get('*', async (req, res) => {
-        try {
-            const url = req.originalUrl;
+// Serve static files from the 'dist' directory
+app.use(express.static(resolve(__dirname, 'dist')));
 
-            // Handle SSR or HTML mode here
-            const template = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Vite App</title>
-          <link rel="stylesheet" href="/@fs/vite.css">
-        </head>
-        <body>
-          <div id="app"></div>
-          <script type="module" src="/@fs/main.js"></script>
-        </body>
-        </html>
-      `;
+// Catch-all route to serve the index.html file
+app.get('*', (req, res) => {
+    res.sendFile(resolve(__dirname, 'dist', 'index.html'));
+});
 
-            res.status(200).send(template);
-        } catch (e) {
-            vite.ssrFixStacktrace(e);
-            console.error(e);
-            res.status(500).end(e.message);
-        }
-    });
-
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    });
-}
-
-createServer();
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
