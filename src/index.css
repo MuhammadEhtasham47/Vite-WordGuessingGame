@@ -1,0 +1,293 @@
+body {
+  text-align: center;
+  font-size: 1em;
+  font-family: verdana;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.2em;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  margin: 0 0 30px 0;
+}
+
+/* rows */
+.row {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.row>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(147, 155, 159, 0.30);
+  width: 75px;
+  height: 76px;
+  border: 1px solid rgba(147, 155, 159, 0.30);
+  border-radius: 5px;
+  margin: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  color: #56575E;
+}
+
+.row>div.green {
+  --background: #66A060;
+  --border-color: #66A060;
+  animation: flip 0.5s ease forwards;
+}
+
+.row>div.grey {
+  --background: #939B9F;
+  --border-color: #939B9F;
+  animation: flip 0.6s ease forwards;
+}
+
+.row>div.yellow {
+  --background: #CEB02C;
+  --border-color: #CEB02C;
+  animation: flip 0.5s ease forwards;
+}
+
+.row>div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.row>div:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.row>div:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.row>div:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+.row.current>div.filled {
+  /* color: #56575E; */
+  animation: bounce 0.2s ease-in-out forwards;
+}
+
+.keypad {
+  /* max-width: 580px; */
+  margin: 20px auto;
+}
+
+.keypad>button {
+  margin: -5px 5px;
+  width: max-content;
+  min-width: 44.665px;
+  height: 51.046px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 50px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.backIcon {
+  font-size: 70px;
+}
+
+.dark-theme .keypad>button {
+  background: #565F7E
+}
+
+.light-theme .keypad>button {
+  background: #D3D6DA;
+}
+
+
+.keypad>button:hover {
+  background-color: #c6cdd5;
+}
+
+.keypad>button.green {
+  background: #66A060;
+  color: #FFF;
+  transition: all 0.3s ease-in;
+}
+
+.keypad>button.yellow {
+  background: #CEB02C;
+  color: #FFF;
+  transition: all 0.3s ease-in;
+}
+
+.keypad>button.grey {
+  background: #818181;
+  color: #FFF;
+  transition: all 0.3s ease-in;
+}
+
+.keypad>button.darkgrey {
+  background: #4C5255;
+  color: #FFF;
+  transition: all 0.3s ease-in;
+}
+
+.keypad>button.green:hover {
+  background: #78b37d;
+}
+
+.keypad>button.yellow:hover {
+  background: #b39721;
+}
+
+.keypad>button.grey:hover {
+  background: #777d80;
+}
+
+/* keyframe animations */
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+    background: rgba(147, 155, 159, 0.30);
+    border-color: rgba(147, 155, 159, 0.30);
+    color: #56575E;
+  }
+
+  45% {
+    transform: rotateX(90deg);
+    background: rgba(147, 155, 159, 0.30);
+    border-color: rgba(147, 155, 159, 0.30);
+    color: #56575E;
+  }
+
+  55% {
+    transform: rotateX(90deg);
+    background: var(--background);
+    border-color: var(--border-color);
+    color: #56575E;
+  }
+
+  100% {
+    transform: rotateX(0deg);
+    background: var(--background);
+    border-color: var(--border-color);
+    color: #FFF;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .row>div {
+    width: 75px;
+    height: 76px;
+  }
+
+  .keypad>button {
+    min-width: 40px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 550px) {
+  .keypad>button {
+    min-width: 35px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .keypad>button {
+    min-width: 30px;
+    height: 45px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 450px) {
+  .row>div {
+    width: 65px;
+    height: 66px;
+  }
+
+  .keypad>button {
+    min-width: 22px;
+    height: 35px;
+    font-size: 12px;
+    margin: -5px 4.5px
+  }
+}
+
+@media (max-width: 400px) {
+  .row>div {
+    width: 55px;
+    height: 56px;
+  }
+
+  .keypad>button {
+    min-width: 15px;
+    height: 30px;
+    font-size: 10px;
+    margin: -5px 3px
+  }
+}
+
+@media (max-width: 350px) {
+  .row>div {
+    width: 50px;
+    height: 50px;
+  }
+
+  .keypad>button {
+    min-width: 11.5px;
+    height: 28px;
+    font-size: 7px;
+    margin: -5px 0.5px
+  }
+}
+
+@media (max-width: 300px) {
+  .row>div {
+    width: 40px;
+    height: 40px;
+  }
+
+  .keypad>button {
+    min-width: 30px;
+    height: 20px;
+    font-size: 4px;
+    margin: -10px 4px
+  }
+}
+
+@media (max-width: 250px) {
+  .row>div {
+    width: 30px;
+    height: 30px;
+  }
+}
