@@ -45,6 +45,16 @@ h1 {
   animation: flip 0.5s ease forwards;
 }
 
+.row>div.correct {
+  --background: #66A060;
+  --border-color: #66A060;
+  --color: #66A060;
+  animation: flip 0.5s ease backwards;
+  background: var(--background);
+  border-color: var(--border-color);
+  color: var(--color);
+}
+
 .row>div.grey {
   --background: #939B9F;
   --border-color: #939B9F;
@@ -202,8 +212,8 @@ h1 {
 
 @media (max-width: 600px) {
   .row>div {
-    width: 75px;
-    height: 76px;
+    width: 66px;
+    height: 66px;
   }
 
   .keypad>button {
@@ -231,8 +241,9 @@ h1 {
 
 @media (max-width: 450px) {
   .row>div {
-    width: 65px;
-    height: 66px;
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
   }
 
   .keypad>button {
@@ -245,8 +256,9 @@ h1 {
 
 @media (max-width: 400px) {
   .row>div {
-    width: 55px;
-    height: 56px;
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
   }
 
   .keypad>button {
@@ -259,8 +271,9 @@ h1 {
 
 @media (max-width: 350px) {
   .row>div {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
   }
 
   .keypad>button {
@@ -273,8 +286,9 @@ h1 {
 
 @media (max-width: 300px) {
   .row>div {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
   }
 
   .keypad>button {
@@ -289,5 +303,6 @@ h1 {
   .row>div {
     width: 30px;
     height: 30px;
+    font-size: 15px;
   }
 }

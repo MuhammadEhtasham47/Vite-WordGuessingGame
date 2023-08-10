@@ -13,8 +13,9 @@ const initialState = {
     maxStreak: 0,
     currentStreak: 0,
     wordsGuessed: 0,
-    showModal: false
-
+    showModal: false,
+    correctWordsCount: {},
+    incorrectGuessCount: {}
 }
 
 export const userSlice = createSlice({
@@ -60,6 +61,9 @@ export const userSlice = createSlice({
         setWords: (state, action) => {
             state.words = action.payload.data.gameArray.wordArray;
         },
+        setWordsArrayEmpty: (state, action) => {
+            state.words = []
+        },
         setCurrentStreak: (state, action) => {
             state.currentStreak = action.payload;
         },
@@ -87,9 +91,21 @@ export const userSlice = createSlice({
         closeShowModal: (state) => {
             state.showModal = false;
         },
+        setCorrectWordCount: (state, action) => {
+            state.correctWordsCount = {
+                ...state.correctWordsCount,
+                [action.payload.joinedKeys]: action.payload.wordsGuessed
+            }
+        },
+        setInCorrectGuessCount: (state, action) => {
+            state.incorrectGuessCount = {
+                ...state.incorrectGuessCount,
+                [action.payload.joinedKeys]: action.payload.incorrectGuess
+            }
+        },
     },
 })
 
-export const { openShowModal, closeShowModal, setWordsGuessed, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, openHelp, openSettings, openStats, closeHelp, closeSettings, closeStats, animateFalse, animateTrue, setWords } = userSlice.actions
+export const { setInCorrectGuessCount, setCorrectWordCount, setWordsArrayEmpty, openShowModal, closeShowModal, setWordsGuessed, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, openHelp, openSettings, openStats, closeHelp, closeSettings, closeStats, animateFalse, animateTrue, setWords } = userSlice.actions
 
 export default userSlice.reducer

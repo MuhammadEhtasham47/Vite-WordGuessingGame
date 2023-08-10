@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Error from "./components/Error.jsx";
-import { setWords } from "./redux/userSlice.js";
+import { setWords, setWordsArrayEmpty, setWordsGuessed } from "./redux/userSlice.js";
 import { publicRequest } from "./apiRequests.js";
 
 function App() {
@@ -33,9 +33,16 @@ function App() {
   // }, [setSolution])
 
   useEffect(() => {
+    dispatch(setWordsArrayEmpty())
     fetchWords()
   }, [])
 
+  window.addEventListener('beforeunload', (event) => {
+    // Dispatch the Redux action before the user leaves the page
+    dispatch(setWordsGuessed(0));
+    // Cancel the default behavior to show the browser's confirmation dialog
+    event.preventDefault();
+  });
 
   const themeMode = useSelector((state) => state.theme.themeMode)
 
@@ -51,9 +58,12 @@ function App() {
         breakpoints: {
           values: {
             xs: 0,
+            xs320: 320,
             xs350: 350,      // Extra small devices (portrait phones)
-            xs450: 450,      // Extra small devices (portrait phones)
-            sm: 638,    // Small devices (landscape phones)
+            xs450: 450,
+            xs550: 550,      // Extra small devices (portrait phones)
+            sm: 638,
+            sm700: 700,    // Small devices (landscape phones)
             md: 960,    // Medium devices (tablets)
             lg: 1280,   // Large devices (laptops/desktops)
             xl: 1920,   // Extra large devices (large desktops)

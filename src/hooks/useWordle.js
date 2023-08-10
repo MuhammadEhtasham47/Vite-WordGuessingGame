@@ -55,10 +55,63 @@ const useWordle = (solution) => {
     }
 
     useEffect(() => {
-        if (turn >= 6 && incorrectGuess < 6) {
-            setGuesses((prevGuesses) => [...prevGuesses, undefined]);
+        if (turn >= guesses.length && incorrectGuess < 6) {
+            for (let i = 0; i < 6 - incorrectGuess; i++) {
+                setGuesses((prevGuesses) => [...prevGuesses, undefined]);
+            }
         }
     }, [incorrectGuess, turn])
+
+    // const totalWords = 20; // Total number of words to be guessed
+    // const maxGuesses = 6; // Maximum number of guesses allowed
+
+    // useEffect(() => {
+    //     // Check if the current turn is beyond the number of guesses and the incorrect guesses are less than the maximum allowed
+    //     if (turn >= guesses.length && incorrectGuess < maxGuesses) {
+    //         // Calculate the remaining words to be guessed
+    //         const remainingWords = totalWords - wordsGuessed;
+
+    //         // Calculate the remaining guesses considering both incorrect guesses and remaining words
+    //         const remainingGuesses = Math.min(maxGuesses - incorrectGuess, remainingWords);
+
+    //         setGuesses((prevGuesses) => {
+    //             // Create a new array of guesses to update the state
+    //             const newGuesses = [...prevGuesses];
+
+    //             // Add undefined elements (lines representing guesses) to the newGuesses array based on remainingGuesses
+    //             for (let i = 0; i < remainingGuesses; i++) {
+    //                 newGuesses.push(undefined);
+    //             }
+
+    //             return newGuesses;
+    //         });
+    //     }
+    // }, [wordsGuessed, incorrectGuess, turn]);
+
+    // useEffect(() => {
+    //     // Check if the incorrect guesses are less than the maximum allowed
+    //     if (incorrectGuess < maxGuesses) {
+    //         // Calculate the remaining words to be guessed
+    //         const remainingWords = totalWords - wordsGuessed;
+
+    //         // Calculate the remaining guesses considering both incorrect guesses and remaining words
+    //         const remainingGuesses = Math.min(maxGuesses - incorrectGuess, remainingWords);
+
+    //         setGuesses((prevGuesses) => {
+    //             // Create a new array of guesses to update the state
+    //             const newGuesses = [...prevGuesses];
+
+    //             // Add undefined elements (lines representing guesses) to the newGuesses array based on remainingGuesses
+    //             for (let i = 0; i < remainingGuesses; i++) {
+    //                 newGuesses.push(undefined);
+    //             }
+
+    //             return newGuesses;
+    //         });
+    //     }
+    // }, [wordsGuessed, incorrectGuess]);
+
+
 
     // format a guess into an array of letter objects 
     // e.g. [{key: 'a', color: 'yellow'}]
