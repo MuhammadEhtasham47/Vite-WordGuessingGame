@@ -44,7 +44,11 @@ export default function Wordle() {
         };
     }, [handleKeyup]);
 
-
+    useEffect(() => {
+        guesses.forEach(guess => {
+            console.log('guess', guess);
+        })
+    }, [])
 
     return (
 
@@ -74,7 +78,7 @@ export default function Wordle() {
                             marginBottom: '50px',
                             display: "flex",
                             justifyContent: 'space-between',
-                            // padding: "0px 20px"
+                            padding: "0px 20px"
 
                         }}
                     >

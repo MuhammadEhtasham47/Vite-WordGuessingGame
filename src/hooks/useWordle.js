@@ -54,13 +54,14 @@ const useWordle = (solution) => {
         setIncorrectGuess(0);
     }
 
-    useEffect(() => {
-        if (turn >= guesses.length && incorrectGuess < 6) {
-            for (let i = 0; i < 6 - incorrectGuess; i++) {
-                setGuesses((prevGuesses) => [...prevGuesses, undefined]);
-            }
-        }
-    }, [incorrectGuess, turn])
+    // useEffect(() => {
+    //     if (turn >= guesses.length && incorrectGuess < 6) {
+    //         for (let i = 0; i < 6 - incorrectGuess; i++) {
+    //             setGuesses((prevGuesses) => [...prevGuesses, undefined]);
+    //         }
+    //     }
+    // }, [incorrectGuess, turn])
+
 
     // const totalWords = 20; // Total number of words to be guessed
     // const maxGuesses = 6; // Maximum number of guesses allowed
@@ -145,6 +146,7 @@ const useWordle = (solution) => {
     // add one to the turn state
     const addNewGuess = (formattedGuess) => {
         if (currentGuess === solution) {
+            setGuesses((prevGuesses) => [...prevGuesses, undefined]);
             setIsCorrect(true);
 
             // handleWinning
@@ -295,15 +297,18 @@ const useWordle = (solution) => {
             //     return
             // }
             // do not allow gibrish words
-            if (!totalWordsArray.includes(currentGuess)) {
-                toast.error('Not a correct word.')
-                return
-            }
+
             // check word is 5 chars
             if (currentGuess.length !== 5) {
                 console.log('word must be 5 chars.')
                 return
             }
+
+            if (!totalWordsArray.includes(currentGuess)) {
+                toast.error('Not a correct word.')
+                return
+            }
+
             const formatted = formatGuess()
             addNewGuess(formatted)
         }
