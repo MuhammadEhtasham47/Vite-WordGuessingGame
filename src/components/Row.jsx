@@ -9,8 +9,6 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
     const correctWordsCount = useSelector((state) => state.user.correctWordsCount)
     const incorrectGuessCount = useSelector((state) => state.user.incorrectGuessCount)
 
-    // console.log('incorrectGuessCount', incorrectGuessCount)
-
     const dispatch = useDispatch()
 
 

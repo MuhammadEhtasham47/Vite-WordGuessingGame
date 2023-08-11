@@ -82,8 +82,8 @@ export default function Wordle() {
 
                         }}
                     >
-                        <Typography sx={{ fontSize: { xs: '14px', xs350: '15px', xs450: '17px' }, color: themeMode === 'light' ? "#202537" : '#FFF', }}>   Remaining Guesses: {6 - incorrectGuess}  </Typography>
-                        <Typography sx={{ fontSize: { xs: '14px', xs350: '15px', xs450: '17px' }, color: themeMode === 'light' ? "#202537" : '#FFF', }}>  Words Guessed : {wordsGuessed} / 20 </Typography>
+                        <Typography sx={{ fontSize: { xs: '11px', xs350: '15px', xs450: '17px' }, color: themeMode === 'light' ? "#202537" : '#FFF', }}>   Remaining Guesses: {6 - incorrectGuess}  </Typography>
+                        <Typography sx={{ fontSize: { xs: '11px', xs350: '15px', xs450: '17px' }, color: themeMode === 'light' ? "#202537" : '#FFF', }}>  Words Guessed : {wordsGuessed} / 20 </Typography>
                     </Box>
                     <Grid handleKeyup={handleKeyup} guesses={guesses} currentGuess={currentGuess} incorrectGuess={incorrectGuess} turn={turn} />
                     <Keypad usedKeys={usedKeys} handleKeyup={handleKeyup} currentGuess={currentGuess} />

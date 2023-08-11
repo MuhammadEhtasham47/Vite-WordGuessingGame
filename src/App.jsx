@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Error from "./components/Error.jsx";
-import { setWords, setWordsArrayEmpty, setWordsGuessed } from "./redux/userSlice.js";
+import { setResetCount, setWords, setWordsArrayEmpty, setWordsGuessed } from "./redux/userSlice.js";
 import { publicRequest } from "./apiRequests.js";
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
   useEffect(() => {
     dispatch(setWordsArrayEmpty())
     dispatch(setWordsGuessed(0))
+    dispatch(setResetCount())
     fetchWords()
   }, [])
 
