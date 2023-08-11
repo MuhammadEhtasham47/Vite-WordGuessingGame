@@ -103,9 +103,13 @@ export const userSlice = createSlice({
                 [action.payload.joinedKeys]: action.payload.incorrectGuess
             }
         },
+        setResetCount: (state, action) => {
+            state.correctWordsCount = {}
+            state.incorrectGuessCount = {}
+        }
     },
 })
 
-export const { setInCorrectGuessCount, setCorrectWordCount, setWordsArrayEmpty, openShowModal, closeShowModal, setWordsGuessed, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, openHelp, openSettings, openStats, closeHelp, closeSettings, closeStats, animateFalse, animateTrue, setWords } = userSlice.actions
+export const { setResetCount, setInCorrectGuessCount, setCorrectWordCount, setWordsArrayEmpty, openShowModal, closeShowModal, setWordsGuessed, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, openHelp, openSettings, openStats, closeHelp, closeSettings, closeStats, animateFalse, animateTrue, setWords } = userSlice.actions
 
 export default userSlice.reducer
