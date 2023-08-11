@@ -34,6 +34,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setWordsArrayEmpty())
+    dispatch(setWordsGuessed(0))
     fetchWords()
   }, [])
 

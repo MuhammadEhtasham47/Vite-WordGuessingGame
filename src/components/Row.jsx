@@ -9,13 +9,13 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
     const correctWordsCount = useSelector((state) => state.user.correctWordsCount)
     const incorrectGuessCount = useSelector((state) => state.user.incorrectGuessCount)
 
-    console.log('incorrectGuessCount', incorrectGuessCount)
+    // console.log('incorrectGuessCount', incorrectGuessCount)
 
     const dispatch = useDispatch()
 
 
     useEffect(() => {
-        if (guess) {
+        if (guess !== undefined) {
             const allColorsAreGreen = guess.every(l => l.color === 'green');
             const keys = guess.map(l => l.key);
             const joinedKeys = keys.join('');
@@ -83,13 +83,13 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
     }
 
     return (
-        <div className="row">
+        <Box className="row" sx={{ marginLeft: { xs320: '2px', sm: '-5px' } }}>
             <div></div>
             <div></div>
             <div></div>
             <div></div>
             <div></div>
-        </div>
+        </Box>
     )
 
 }
