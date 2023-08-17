@@ -57,9 +57,7 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
 
                 }}
             >
-                {/* <Typography sx={{ fontSize: { xs: '0px', xs320: '6px', xs450: '8px', xs550: '9px', sm: '10px', zIndex: 9999 }, color: themeMode === 'light' ? "#202537" : '#FFF' }}>
-                    {`Guesses Left: ${incorrectGuessCount[joinedKeys] ? (6 - incorrectGuessCount[joinedKeys]) : 6}`}
-                </Typography> */}
+
                 <Box></Box>
 
                 <Box sx={{
@@ -67,16 +65,8 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
                     mr: { xs: '20px', xs320: '4px', xs450: '2px', xs550: '5px', sm: '0px' },
                     border: allColorsAreGreen && '1px solid green',
                     borderRadius: '12px'
-                    // background: allColorsAreGreen && 'green'
                 }}
                 >
-                    {/* <div className="row past">
-                         {guess.map((l, i) => (
-                            // <div key={i} className={allColorsAreGreen ? 'correct' : l.color}>{l.key}</div>
-                            <div key={i} className={currentWordArray[i] === l.key ? 'green' : currentWordArray.includes(l.key) ? 'yellow' : 'grey'}>{l.key}</div>
-                            ))}
-                        </div> */}
-
                     <div className="row past">
                         {guess.map((l, i) => {
                             let className;
@@ -111,9 +101,6 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
 
                 </Box>
 
-                {/* <Typography sx={{ fontSize: { xs: '0px', xs320: '6px', xs450: '8px', xs550: '9px', sm: '10px' }, color: themeMode === 'light' ? "#202537" : '#FFF' }}>
-                    {`Words Guessed : ${correctWordsCount[joinedKeys]}`}
-                </Typography> */}
                 <Typography sx={{ mr: { sm: '50px' }, fontSize: { xs: '0px', xs320: '11px', xs450: '15px', xs550: '18px', sm: '20px' }, color: themeMode === 'light' ? "#202537" : '#FFF' }}>
                     {correctWordsCount[joinedKeys]} / 20
                 </Typography>

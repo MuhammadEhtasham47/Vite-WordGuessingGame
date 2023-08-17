@@ -12,7 +12,6 @@ h1 {
   margin: 0 0 30px 0;
 }
 
-/* rows */
 .row {
   text-align: center;
   display: flex;
@@ -73,16 +72,6 @@ h1 {
   animation: greenFlip 3s ease forwards;
 }
 
-/* .row>div.correct {
-  --background: #66A060;
-  --border-color: #66A060;
-  --color: #66A060;
-  animation: greenFlip 3s ease backwards;
-  background: var(--background);
-  border-color: var(--border-color);
-  color: var(--color);
-} */
-
 .row>div.success-grey {
   --background: #939B9F;
   --border-color: #939B9F;
@@ -112,33 +101,14 @@ h1 {
 }
 
 .row.current>div.filled {
-  /* color: #56575E; */
   animation: bounce 0.2s ease-in-out forwards;
 }
 
 .keypad {
-  /* max-width: 580px; */
   margin: 20px 0px;
 }
 
-/* .keypad>button {
-  margin: -5px 5px;
-  width: max-content;
-  min-width: 44.665px;
-  height: 51.046px;
-  border-radius: 5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 50px;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-transform: uppercase;
-} */
+
 
 .backIcon {
   font-size: 70px;
@@ -275,28 +245,6 @@ h1 {
     width: 66px;
     height: 66px;
   }
-
-  /* .keypad>button {
-    min-width: 40px;
-    height: 45px;
-    font-size: 14px;
-  } */
-}
-
-@media (max-width: 550px) {
-  /* .keypad>button {
-    min-width: 35px;
-    height: 45px;
-    font-size: 14px;
-  } */
-}
-
-@media (max-width: 500px) {
-  /* .keypad>button {
-    min-width: 30px;
-    height: 45px;
-    font-size: 14px;
-  } */
 }
 
 @media (max-width: 450px) {
@@ -305,13 +253,6 @@ h1 {
     height: 56px;
     font-size: 28px;
   }
-
-  /* .keypad>button {
-    min-width: 22px;
-    height: 35px;
-    font-size: 12px;
-    margin: -5px 4.5px
-  } */
 }
 
 @media (max-width: 400px) {
@@ -320,13 +261,6 @@ h1 {
     height: 46px;
     font-size: 24px;
   }
-
-  /* .keypad>button {
-    min-width: 15px;
-    height: 30px;
-    font-size: 10px;
-    margin: -5px 3px
-  } */
 }
 
 @media (max-width: 350px) {
@@ -335,13 +269,6 @@ h1 {
     height: 35px;
     font-size: 20px;
   }
-
-  /* .keypad>button {
-    min-width: 11.5px;
-    height: 28px;
-    font-size: 7px;
-    margin: -5px 0.5px
-  } */
 }
 
 @media (max-width: 300px) {
@@ -350,13 +277,6 @@ h1 {
     height: 30px;
     font-size: 18px;
   }
-
-  /* .keypad>button {
-    min-width: 30px;
-    height: 20px;
-    font-size: 4px;
-    margin: -10px 4px
-  } */
 }
 
 @media (max-width: 250px) {

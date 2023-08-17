@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useWordle from '../hooks/useWordle'
 import Grid from './Grid.jsx'
 import Keypad from './Keypad.jsx'
@@ -29,20 +29,36 @@ export default function Wordle() {
     const shouldStatsOpen = useSelector((state) => state.user.shouldStatsOpen)
     const themeMode = useSelector((state) => state.theme.themeMode)
     const showModal = useSelector((state) => state.user.showModal)
-
-
     const words = useSelector((state) => state.user.words)
-    // const dispatch = useDispatch()
+
+    const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
     let solution = words[wordsGuessed]
     const { currentGuess, guesses, turn, usedKeys, handleKeyup, incorrectGuess, handleReset } = useWordle(solution)
 
+    const handleResize = () => {
+        setInnerWidth(window.innerWidth);
+    };
+
     useEffect(() => {
-        window.addEventListener('keyup', handleKeyup);
+        window.addEventListener('resize', handleResize);
+
         return () => {
-            window.removeEventListener('keyup', handleKeyup);
+            window.removeEventListener('resize', handleResize);
         };
-    }, [handleKeyup]);
+    }, []);
+
+    useEffect(() => {
+        if (innerWidth > 768) {
+            window.addEventListener('keyup', handleKeyup);
+            return () => {
+                window.removeEventListener('keyup', handleKeyup);
+            };
+        }
+    }, [handleKeyup, innerWidth]);
+
+
+
 
     useEffect(() => {
         guesses.forEach(guess => {
@@ -73,7 +89,6 @@ export default function Wordle() {
                     <Box
                         sx={{
                             width: { xs: '100%', xs350: '100%', xs450: '100%', sm: '638px' },
-                            // background: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)',
                             marginTop: '-70px',
                             marginBottom: '50px',
                             display: "flex",
@@ -95,11 +110,6 @@ export default function Wordle() {
 
             <Modal
                 open={showModal}
-            // sx={{
-            //     border: '0px solid black',
-            //     outline: 'none', // Remove focus outline from the modal container
-            //     '&:focus': { outline: 'none' },
-            // }}
             >
                 <Box sx={{
                     position: 'absolute',
@@ -111,10 +121,9 @@ export default function Wordle() {
                     border: '2px solid #000',
                     boxShadow: 24,
                     p: 4,
-                    outline: 'none', // Remove focus outline from the modal container
+                    outline: 'none',
                     '&:focus': { outline: 'none' },
                 }}
-                //  style={{ background: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)' }}
                 >
                     <ModalDetails handleReset={handleReset} ></ModalDetails>
                 </Box>
