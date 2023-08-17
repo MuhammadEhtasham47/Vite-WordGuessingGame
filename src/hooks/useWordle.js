@@ -12,7 +12,6 @@ const useWordle = (solution) => {
     const [turn, setTurn] = useState(0)
     const [currentGuess, setCurrentGuess] = useState('')
     const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
-    // const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
     const [usedKeys, setUsedKeys] = useState({}) // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [incorrectGuess, setIncorrectGuess] = useState(0);
@@ -53,66 +52,6 @@ const useWordle = (solution) => {
         setUsedKeys({})
         setIncorrectGuess(0);
     }
-
-    // useEffect(() => {
-    //     if (turn >= guesses.length && incorrectGuess < 6) {
-    //         for (let i = 0; i < 6 - incorrectGuess; i++) {
-    //             setGuesses((prevGuesses) => [...prevGuesses, undefined]);
-    //         }
-    //     }
-    // }, [incorrectGuess, turn])
-
-
-    // const totalWords = 20; // Total number of words to be guessed
-    // const maxGuesses = 6; // Maximum number of guesses allowed
-
-    // useEffect(() => {
-    //     // Check if the current turn is beyond the number of guesses and the incorrect guesses are less than the maximum allowed
-    //     if (turn >= guesses.length && incorrectGuess < maxGuesses) {
-    //         // Calculate the remaining words to be guessed
-    //         const remainingWords = totalWords - wordsGuessed;
-
-    //         // Calculate the remaining guesses considering both incorrect guesses and remaining words
-    //         const remainingGuesses = Math.min(maxGuesses - incorrectGuess, remainingWords);
-
-    //         setGuesses((prevGuesses) => {
-    //             // Create a new array of guesses to update the state
-    //             const newGuesses = [...prevGuesses];
-
-    //             // Add undefined elements (lines representing guesses) to the newGuesses array based on remainingGuesses
-    //             for (let i = 0; i < remainingGuesses; i++) {
-    //                 newGuesses.push(undefined);
-    //             }
-
-    //             return newGuesses;
-    //         });
-    //     }
-    // }, [wordsGuessed, incorrectGuess, turn]);
-
-    // useEffect(() => {
-    //     // Check if the incorrect guesses are less than the maximum allowed
-    //     if (incorrectGuess < maxGuesses) {
-    //         // Calculate the remaining words to be guessed
-    //         const remainingWords = totalWords - wordsGuessed;
-
-    //         // Calculate the remaining guesses considering both incorrect guesses and remaining words
-    //         const remainingGuesses = Math.min(maxGuesses - incorrectGuess, remainingWords);
-
-    //         setGuesses((prevGuesses) => {
-    //             // Create a new array of guesses to update the state
-    //             const newGuesses = [...prevGuesses];
-
-    //             // Add undefined elements (lines representing guesses) to the newGuesses array based on remainingGuesses
-    //             for (let i = 0; i < remainingGuesses; i++) {
-    //                 newGuesses.push(undefined);
-    //             }
-
-    //             return newGuesses;
-    //         });
-    //     }
-    // }, [wordsGuessed, incorrectGuess]);
-
-
 
     // format a guess into an array of letter objects 
     // e.g. [{key: 'a', color: 'yellow'}]
@@ -156,12 +95,13 @@ const useWordle = (solution) => {
 
             let newGamesWon = gamesWon + 1;
             let newCurrentStreak = currentStreak + 1;
+            // let newBestTry = currentStreak + 1;
             let newGamesPlayed = gamesPlayed + 1
 
             // newWordsGusseed !== 20 which mean calculate  current streak
             dispatch(setCurrentStreak(newCurrentStreak));
-            if (newCurrentStreak > bestTry) {
-                dispatch(setBestTry(newCurrentStreak));
+            if (newWordsGuessed > bestTry) {
+                dispatch(setBestTry(newWordsGuessed));
             }
             if (newCurrentStreak > maxStreak) {
                 dispatch(setMaxStreak(newCurrentStreak));
@@ -180,42 +120,6 @@ const useWordle = (solution) => {
                     handleSetStats();
                 }
             }
-
-            // if (parseInt(updatedWordsGuessed) === 20) {
-            //     dispatch(setWordsGuessed(updatedWordsGuessed))
-            //     dispatch(setCurrentStreak(updatedCurrentStreak));
-
-            //     if (bestTry < updatedCurrentStreak) {
-            //         dispatch(setBestTry(updatedCurrentStreak));
-            //     }
-
-            //     if (updatedCurrentStreak > maxStreak) {
-            //         dispatch(setMaxStreak(updatedCurrentStreak));
-            //     }
-            // }
-
-            // if (parseInt(updatedWordsGuessed) !== 20) {
-
-            //     dispatch(setWordsGuessed(updatedWordsGuessed));
-            //     dispatch(setCurrentStreak(updatedCurrentStreak));
-
-            //     if (bestTry < updatedCurrentStreak) {
-            //         dispatch(setBestTry(updatedCurrentStreak));
-            //     }
-
-            //     if (updatedCurrentStreak > maxStreak) {
-            //         dispatch(setMaxStreak(updatedCurrentStreak));
-            //     }
-            //     // Calculate the updated winPercentage using the new gamesWon value
-            //     handleSetStats();
-            // } else {
-            //     dispatch(openShowModal());
-            //     const winPercentage = (updatedGamesWon / (updatedGamesPlayed)) * 100;
-            //     dispatch(setWinPercentage(winPercentage));
-            //     dispatch(setGamesPlayed(updatedGamesPlayed));
-            //     handleSetStats();
-            // }
-
 
         } else {
             setIncorrectGuess((prevIncorrectGuess) => prevIncorrectGuess + 1);
@@ -236,7 +140,7 @@ const useWordle = (solution) => {
             //You have tries left but the word is incorrect
             else {
                 dispatch(setCurrentStreak(0));
-                dispatch(setMaxStreak(0));
+                // dispatch(setMaxStreak(0));
             }
         }
 
@@ -245,9 +149,7 @@ const useWordle = (solution) => {
             newGuesses[turn] = formattedGuess
             return newGuesses
         })
-        // setHistory(prevHistory => {
-        //     return [...prevHistory, currentGuess]
-        // })
+
         setTurn(prevTurn => {
             return prevTurn + 1
         })
@@ -277,9 +179,6 @@ const useWordle = (solution) => {
         }
 
         setCurrentGuess('')
-        // if ((incorrectGuess + 1) === 6 || wordsGuessed === 20) {
-        //     handleReset()
-        // }
     }
 
     // handle keyup event & track current guess
@@ -291,12 +190,6 @@ const useWordle = (solution) => {
                 console.log('you used all your guesses!')
                 return
             }
-            // do not allow duplicate words
-            // if (history.includes(currentGuess)) {
-            //     toast.error('You have already tried that word.')
-            //     return
-            // }
-            // do not allow gibrish words
 
             // check word is 5 chars
             if (currentGuess.length !== 5) {

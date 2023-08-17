@@ -26,12 +26,6 @@ function App() {
       })
   }
 
-
-  // useEffect(() => {
-  //   const randomSolution = words[Math.floor(Math.random() * words.length)]
-  //   setSolution(randomSolution.word)
-  // }, [setSolution])
-
   useEffect(() => {
     dispatch(setWordsArrayEmpty())
     dispatch(setWordsGuessed(0))
