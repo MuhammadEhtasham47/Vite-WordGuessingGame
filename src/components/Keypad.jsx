@@ -25,6 +25,7 @@ export default function Keypad({ usedKeys, handleKeyup, currentGuess }) {
     const [guessLength, setGuessLength] = useState(0)
     const [currentWordArray, setCurrentWordArray] = useState([])
 
+
     useEffect(() => {
         let guessArray = currentGuess.split('')
         let guessArrayLength = guessArray.length
@@ -37,6 +38,7 @@ export default function Keypad({ usedKeys, handleKeyup, currentGuess }) {
 
         }
     }, [words, wordsGuessed])
+
 
     return (
 

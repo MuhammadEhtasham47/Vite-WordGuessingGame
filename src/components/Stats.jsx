@@ -108,7 +108,7 @@ export const Stats = () => {
                         fontSize: { xs: '20px', xs350: '25px' },
                     }}
                 >
-                    Statictics
+                    Statistics
                 </Typography>
 
                 <Clear
