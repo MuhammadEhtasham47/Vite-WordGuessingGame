@@ -23,6 +23,7 @@ const useWordle = (solution) => {
     const gamesPlayed = useSelector((state) => state.user.gamesPlayed)
     const winPercentage = useSelector((state) => state.user.winPercentage)
     const wordsGuessed = useSelector((state) => state.user.wordsGuessed)
+    const words = useSelector((state) => state.user.words)
     const userToken = useSelector((state) => state.auth.userToken)
 
     const handleSetStats = () => {
@@ -42,6 +43,59 @@ const useWordle = (solution) => {
                 console.log('api failed')
             })
     }
+
+    function createKeyIndexDict(arrayOfArrays) {
+        const keyIndexDict = {};
+
+        arrayOfArrays.forEach((innerArray, wordIndex) => {
+            innerArray.forEach((obj, letterIndex) => {
+                const { key } = obj;
+                if (keyIndexDict.hasOwnProperty(key)) {
+                    keyIndexDict[key].push(letterIndex);
+                } else {
+                    keyIndexDict[key] = [letterIndex];
+                }
+            });
+        });
+
+        return keyIndexDict;
+    }
+
+    useEffect(() => {
+        setUsedKeys(prevUsedKeys => {
+
+            let flatGuess = guesses.filter(guess => guess != undefined)
+
+            const keyIndexDict = createKeyIndexDict(flatGuess);
+
+            let currentWordArray = []
+            if (words.length !== 0) {
+                currentWordArray = words[wordsGuessed].split('')
+            }
+
+
+            for (const key in keyIndexDict) { // ireating the keys to check if its in the current word array
+                if (currentWordArray.includes(key)) { // key found
+                    let color = "yellow"
+                    for (let i = 0; i < currentWordArray.length; i++) {
+                        if (currentWordArray[i] === key) {
+                            if (typeof keyIndexDict[key] !== "string") {
+                                if (keyIndexDict[key].includes(i)) {
+                                    color = 'green'
+                                }
+                            }
+                        }
+                    }
+                    keyIndexDict[key] = color
+                } else { // key not found
+                    keyIndexDict[key] = 'grey'
+                }
+            }
+            return keyIndexDict
+        })
+    }, [wordsGuessed])
+
+
 
     const handleReset = () => {
         setTurn(0);
@@ -153,30 +207,40 @@ const useWordle = (solution) => {
         setTurn(prevTurn => {
             return prevTurn + 1
         })
-        if (currentGuess === solution) {
-            setUsedKeys({})
-        } else {
-            setUsedKeys(prevUsedKeys => {
-                formattedGuess.forEach(l => {
-                    const currentColor = prevUsedKeys[l.key]
 
-                    if (l.color === 'green') {
-                        prevUsedKeys[l.key] = 'green'
-                        return
-                    }
-                    if (l.color === 'yellow' && currentColor !== 'green') {
-                        prevUsedKeys[l.key] = 'yellow'
-                        return
-                    }
-                    if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
-                        prevUsedKeys[l.key] = 'grey'
-                        return
-                    }
-                })
+        setUsedKeys(prevUsedKeys => {
 
-                return prevUsedKeys
-            })
-        }
+            let flatGuess = guesses.filter(guess => guess != undefined)
+            flatGuess = [...flatGuess, formattedGuess];
+
+            const keyIndexDict = createKeyIndexDict(flatGuess);
+
+            let currentWordArray = []
+            if (words.length !== 0) {
+                currentWordArray = words[wordsGuessed].split('')
+            }
+
+
+            for (const key in keyIndexDict) { // ireating the keys to check if its in the current word array
+                if (currentWordArray.includes(key)) { // key found
+                    let color = "yellow"
+                    for (let i = 0; i < currentWordArray.length; i++) {
+                        if (currentWordArray[i] === key) {
+                            if (typeof keyIndexDict[key] !== "string") {
+                                if (keyIndexDict[key].includes(i)) {
+                                    color = 'green'
+                                }
+                            }
+                        }
+                    }
+                    keyIndexDict[key] = color
+                } else { // key not found
+                    keyIndexDict[key] = 'grey'
+                }
+            }
+
+            return keyIndexDict
+        })
 
         setCurrentGuess('')
     }

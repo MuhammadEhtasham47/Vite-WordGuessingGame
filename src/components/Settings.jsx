@@ -161,7 +161,7 @@ const Settings = () => {
 
 
                 {/* Animation*/}
-                <Box
+                {/* <Box
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -211,7 +211,7 @@ const Settings = () => {
                             }
                         }}
                     />
-                </Box>
+                </Box> */}
 
             </Box>
 
