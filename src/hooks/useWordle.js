@@ -4,6 +4,7 @@ import { privateRequest } from '../apiRequests'
 import { openShowModal, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, setWordsGuessed } from '../redux/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { totalWordsArray } from '../utils/SortedWordsData'
+import { firstTimeInput, gameEndTime } from '../redux/timeSlice'
 
 const useWordle = (solution) => {
 
@@ -16,6 +17,7 @@ const useWordle = (solution) => {
     const [usedKeys, setUsedKeys] = useState({}) // {a: 'grey', b: 'green', c: 'yellow'} etc
     const [incorrectGuess, setIncorrectGuess] = useState(0);
 
+    const firstInput = useSelector((state) => state.time.firstInput)
     const currentStreak = useSelector((state) => state.user.currentStreak)
     const maxStreak = useSelector((state) => state.user.maxStreak)
     const bestTry = useSelector((state) => state.user.bestTry)
@@ -187,6 +189,7 @@ const useWordle = (solution) => {
                 newWinPercentage = Math.round(newWinPercentage)
                 dispatch(setWinPercentage(newWinPercentage));
                 dispatch(openShowModal());
+                dispatch(gameEndTime());
                 if (userToken !== null) {
                     handleSetStats();
                 }
@@ -275,6 +278,9 @@ const useWordle = (solution) => {
         }
         if (/^[A-Za-z]$/.test(key)) {
             if (currentGuess.length < 5) {
+                if (firstInput === null) {
+                    dispatch(firstTimeInput())
+                }
                 let lowerCaseKey = key.toLowerCase()
                 setCurrentGuess(prev => prev + lowerCaseKey)
             }

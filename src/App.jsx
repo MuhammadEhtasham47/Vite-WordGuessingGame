@@ -27,18 +27,18 @@ function App() {
   }
 
   useEffect(() => {
-    dispatch(setWordsArrayEmpty())
-    dispatch(setWordsGuessed(0))
-    dispatch(setResetCount())
+    // dispatch(setWordsArrayEmpty())
+    // dispatch(setWordsGuessed(0))
+    // dispatch(setResetCount())
     fetchWords()
   }, [])
 
-  window.addEventListener('beforeunload', (event) => {
-    // Dispatch the Redux action before the user leaves the page
-    dispatch(setWordsGuessed(0));
-    // Cancel the default behavior to show the browser's confirmation dialog
-    event.preventDefault();
-  });
+  // window.addEventListener('beforeunload', (event) => {
+  //   // Dispatch the Redux action before the user leaves the page
+  //   dispatch(setWordsGuessed(0));
+  //   // Cancel the default behavior to show the browser's confirmation dialog
+  //   event.preventDefault();
+  // });
 
   const themeMode = useSelector((state) => state.theme.themeMode)
 

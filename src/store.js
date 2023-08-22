@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import themeSlice from './redux/themeSlice';
 import userSlice from './redux/userSlice';
 import authSlice from './redux/authSlice';
+import timeSlice from './redux/timeSlice';
 
 const persistConfig = {
     key: 'root',
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     auth: authSlice,
     theme: themeSlice,
     user: userSlice,
+    time: timeSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
