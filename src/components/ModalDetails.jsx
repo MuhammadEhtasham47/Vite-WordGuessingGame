@@ -15,41 +15,64 @@ export default function ModalDetails({ handleReset }) {
     const dispatch = useDispatch()
 
 
+    // const calculateTime = () => {
+    //     const momentFirstInput = moment(firstInput).format('HH:mm:ss');
+    //     const momentNow = moment(endTime).format('HH:mm:ss');
+
+    //     const firstInputHour = parseInt(momentFirstInput.split(':')[0]);
+    //     const firstInputMinute = parseInt(momentFirstInput.split(':')[1]);
+    //     const firstInputSeconds = parseInt(momentFirstInput.split(':')[2]);
+    //     const momentNowHour = parseInt(momentNow.split(':')[0]);
+    //     const momentNowMinute = parseInt(momentNow.split(':')[1]);
+    //     const momentNowSeconds = parseInt(momentNow.split(':')[2]);
+
+    //     let string = ''; // Initialize the string
+
+    //     let timeDifference = momentNowSeconds - firstInputSeconds;
+    //     if (timeDifference !== 1) {
+    //         string += `${timeDifference}s`;
+    //     }
+
+    //     timeDifference = momentNowMinute - firstInputMinute;
+    //     if (timeDifference === 1) {
+    //         string = `${timeDifference}m${string}`;
+    //     }
+
+    //     timeDifference = momentNowHour - firstInputHour;
+    //     if (timeDifference !== 1) {
+    //         string = `${timeDifference}h${string}`;
+    //     }
+
+    //     return string;
+    // };
+
     const calculateTime = () => {
-        const momentFirstInput = moment(firstInput).format('HH:mm:ss');
-        const momentNow = moment(endTime).format('HH:mm:ss');
+        const momentFirstInput = moment(firstInput);
+        const momentNow = moment(endTime);
 
-        const firstInputHour = parseInt(momentFirstInput.split(':')[0]);
-        const firstInputMinute = parseInt(momentFirstInput.split(':')[1]);
-        const firstInputSeconds = parseInt(momentFirstInput.split(':')[2]);
-        const momentNowHour = parseInt(momentNow.split(':')[0]);
-        const momentNowMinute = parseInt(momentNow.split(':')[1]);
-        const momentNowSeconds = parseInt(momentNow.split(':')[2]);
+        const timeDifference = moment.duration(momentNow.diff(momentFirstInput));
 
-        let string = ''; // Initialize the string
+        const hours = timeDifference.hours();
+        const minutes = timeDifference.minutes();
+        const seconds = timeDifference.seconds();
 
-        let timeDifference = momentNowHour - firstInputHour;
-        if (timeDifference === 1) {
-            string += `${timeDifference}h`;
-        } else if (timeDifference !== 0) {
-            string += `${timeDifference}h`;
+        let string = '';
+
+        if (hours > 0) {
+            string += `${hours}h`;
         }
 
-        timeDifference = momentNowMinute - firstInputMinute;
-        if (timeDifference === 1) {
-            string += `${timeDifference}m`;
-        } else if (timeDifference !== 0) {
-            string += `${timeDifference}m`;
+        if (minutes > 0) {
+            string += `${minutes}m`;
         }
 
-        timeDifference = momentNowSeconds - firstInputSeconds;
-        if (timeDifference === 1) {
-            string += `${timeDifference}s`;
-        } else if (timeDifference !== 0) {
-            string += `${timeDifference}s`;
+        if (seconds > 0) {
+            string += `${seconds}s`;
         }
+
         return string;
     };
+
 
 
     return (

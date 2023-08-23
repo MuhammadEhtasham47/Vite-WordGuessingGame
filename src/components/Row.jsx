@@ -24,7 +24,7 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
 
 
     useEffect(() => {
-        if (guess !== undefined) {
+        if (guess !== undefined && guess !== null) {
             const allColorsAreGreen = guess.every(l => l.color === 'green');
             const keys = guess.map(l => l.key);
             const joinedKeys = keys.join('');
@@ -42,7 +42,6 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
     }, [guess]);
 
     if (guess) {
-        console.log('guess: ', guess);
         const allColorsAreGreen = guess.every(l => l.color === 'green');
         const keys = guess.map(l => l.key);
         const joinedKeys = keys.join('');
@@ -72,7 +71,6 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
                             let className;
 
 
-                            console.log('0------------------------------------------------------------');
 
                             if (currentWordArray[i] === l.key) {
                                 if (allColorsAreGreen) {
@@ -81,23 +79,17 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
                                     className = 'green';
                                 }
                             } else if (currentWordArray.includes(l.key)) {
-                                // console.log('l.key', l.key, 'in else if');
-                                // console.log('currentWordArray', currentWordArray);
                                 let duplicateLetterArray = guess.filter((letter, index) => letter.key === l.key);
                                 let duplicateLetterArrayOfSolution = currentWordArray.filter((letter, index) => letter === l.key);
 
-                                // console.log('duplicateLetterArray', duplicateLetterArray.length);
-                                // console.log('duplicateLetterArrayOfSolution', duplicateLetterArrayOfSolution.length);
                                 let classColor = 'yellow'
                                 if (duplicateLetterArray.length > duplicateLetterArrayOfSolution.length) {
-                                    // console.log("in if");
                                     duplicateLetterArray.forEach((letter, index) => {
                                         if (letter.color === 'green') {
                                             classColor = 'grey';
                                         }
                                     });
                                 }
-                                // console.log('classColor: ', classColor);
                                 if (allColorsAreGreen) {
                                     className = `success-${classColor}`;
                                 } else {
