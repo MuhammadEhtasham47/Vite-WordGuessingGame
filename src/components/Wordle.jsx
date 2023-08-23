@@ -6,10 +6,13 @@ import ModalDetails from './ModalDetails.jsx'
 import Topbar from './Topbar.jsx'
 import { Box, Modal, Typography } from '@mui/material'
 import styled from '@emotion/styled'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Settings from './Settings'
 import Help from './Help'
 import { Stats } from './Stats'
+import moment from 'moment/moment'
+import { resetTime } from '../redux/timeSlice'
+import { closeShowModal, setResetCount, setWordsGuessed } from '../redux/userSlice'
 
 
 const MainContainer = styled(Box)(() => ({
@@ -22,7 +25,8 @@ const MainContainer = styled(Box)(() => ({
 }));
 
 export default function Wordle() {
-
+    const dispatch = useDispatch()
+    const firstInput = useSelector((state) => state.time.firstInput)
     const wordsGuessed = useSelector((state) => state.user.wordsGuessed)
     const shouldSettingsOpen = useSelector((state) => state.user.shouldSettingsOpen)
     const shouldHelpOpen = useSelector((state) => state.user.shouldHelpOpen)
@@ -57,14 +61,18 @@ export default function Wordle() {
         }
     }, [handleKeyup, innerWidth]);
 
-
-
-
     useEffect(() => {
-        guesses.forEach(guess => {
-            console.log('guess', guess);
-        })
+
+        const firstInputDate = moment(firstInput).format('DD');
+        const currentDate = moment(new Date()).format('DD');
+        if (parseInt(firstInputDate) !== parseInt(currentDate)) {
+            dispatch(resetTime());
+            dispatch(setResetCount())
+            dispatch(setWordsGuessed(0));
+            dispatch(closeShowModal());
+        }
     }, [])
+
 
     return (
 

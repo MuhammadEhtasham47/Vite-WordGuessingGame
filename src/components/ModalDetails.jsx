@@ -3,14 +3,55 @@ import { Button, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeShowModal, setWordsGuessed } from '../redux/userSlice'
-
+import moment from 'moment/moment'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-hot-toast'
 export default function ModalDetails({ handleReset }) {
-
+    const firstInput = useSelector((state) => state.time.firstInput)
+    const endTime = useSelector((state) => state.time.endTime)
     const themeMode = useSelector((state) => state.theme.themeMode)
     const wordsGuessed = useSelector((state) => state.user.wordsGuessed)
 
-    console.log('wordsGussed', wordsGuessed);
     const dispatch = useDispatch()
+
+
+    const calculateTime = () => {
+        const momentFirstInput = moment(firstInput).format('HH:mm:ss');
+        const momentNow = moment(endTime).format('HH:mm:ss');
+
+        const firstInputHour = parseInt(momentFirstInput.split(':')[0]);
+        const firstInputMinute = parseInt(momentFirstInput.split(':')[1]);
+        const firstInputSeconds = parseInt(momentFirstInput.split(':')[2]);
+        const momentNowHour = parseInt(momentNow.split(':')[0]);
+        const momentNowMinute = parseInt(momentNow.split(':')[1]);
+        const momentNowSeconds = parseInt(momentNow.split(':')[2]);
+
+        let string = ''; // Initialize the string
+
+        let timeDifference = momentNowHour - firstInputHour;
+        if (timeDifference === 1) {
+            string += `${timeDifference}h`;
+        } else if (timeDifference !== 0) {
+            string += `${timeDifference}h`;
+        }
+
+        timeDifference = momentNowMinute - firstInputMinute;
+        if (timeDifference === 1) {
+            string += `${timeDifference}m`;
+        } else if (timeDifference !== 0) {
+            string += `${timeDifference}m`;
+        }
+
+        timeDifference = momentNowSeconds - firstInputSeconds;
+        if (timeDifference === 1) {
+            string += `${timeDifference}s`;
+        } else if (timeDifference !== 0) {
+            string += `${timeDifference}s`;
+        }
+        return string;
+    };
+
+
     return (
         <div style={{ borderRadius: '8px', width: '320px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
 
@@ -21,7 +62,7 @@ export default function ModalDetails({ handleReset }) {
                         Congratulations! You Win!
                     </Typography>
                     <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                        You've successfully found the all the solutions for today! 🎉
+                        You guessed 20 words in {calculateTime()}
                     </Typography>
                 </div>
             )
@@ -31,48 +72,52 @@ export default function ModalDetails({ handleReset }) {
                         <Typography variant="h5" sx={{ marginBottom: '8px' }}>
                             Game Overs!
                         </Typography>
-                        <Typography variant="h5" sx={{ marginBottom: '8px' }}>
+                        {/* <Typography variant="h5" sx={{ marginBottom: '8px' }}>
                             Better Luck Next Time.
-                        </Typography>
+                        </Typography> */}
                         <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                            Unfortunately, you couldn't find the solution this time. Keep trying! 😞
+                            You guessed {wordsGuessed} words in {calculateTime()}
                         </Typography>
                     </div>
                 )
                     : (
                         <div>
                             <MoodBadOutlined sx={{ fontSize: 60, color: '#ff9800' }} />
-                            <Typography variant="h5" sx={{ marginBottom: '8px' }}>
+                            <Typography variant="h5" sx={{ marginBottom: '8px', fontSize: '23px' }}>
                                 Nice Try, But Not Quite There.
                             </Typography>
                             <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                                You've made some progress, but couldn't guess the solution yet. Don't give up! 😊
+                                You guessed {wordsGuessed} {wordsGuessed === 1 ? 'word' : 'words'} in {calculateTime()}.
                             </Typography>
                         </div>
                     )}
-            <Button
-                variant="outlined"
-                onClick={() => { dispatch(setWordsGuessed(0)); handleReset(); dispatch(closeShowModal()) }}
-                sx={{
-                    mt: '40px',
-                    backgroundColor: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)',
-                    color: themeMode === 'light' ? "#202537" : '#FFF',
-                    borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                    '&:hover': {
+            <CopyToClipboard text={`Foreverdle #3\n${wordsGuessed}/20 words solved in ${calculateTime()}\nhttps://foreverdle.com\n#foreverdle`}>
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        toast.success('Copied to clipboard')
+                    }}
+                    sx={{
+                        mt: '20px',
+                        backgroundColor: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)',
+                        color: themeMode === 'light' ? "#202537" : '#FFF',
                         borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                    },
-                    '&:active': {
-                        borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                        boxShadow: 'none',
-                    },
-                    '&:focus': {
-                        borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                        outline: 'none',
-                    },
-                }}
-            >
-                Close
-            </Button>
+                        '&:hover': {
+                            borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                        },
+                        '&:active': {
+                            borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                            boxShadow: 'none',
+                        },
+                        '&:focus': {
+                            borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                            outline: 'none',
+                        },
+                    }}
+                >
+                    Share
+                </Button>
+            </CopyToClipboard>
         </div >
     )
 }
