@@ -11,7 +11,7 @@ import Settings from './Settings'
 import Help from './Help'
 import { Stats } from './Stats'
 import moment from 'moment/moment'
-import { resetTime } from '../redux/timeSlice'
+import { resetGuesses, resetTime, setGuessesForReload, setIncorrectGuessesForReload, setTurnForReload } from '../redux/timeSlice'
 import { closeShowModal, setResetCount, setWordsGuessed } from '../redux/userSlice'
 
 
@@ -53,6 +53,12 @@ export default function Wordle() {
     }, []);
 
     useEffect(() => {
+        dispatch(setGuessesForReload(guesses))
+        dispatch(setIncorrectGuessesForReload(incorrectGuess))
+        dispatch(setTurnForReload(turn))
+    }, [turn, incorrectGuess])
+
+    useEffect(() => {
         if (innerWidth > 768) {
             window.addEventListener('keyup', handleKeyup);
             return () => {
@@ -67,6 +73,7 @@ export default function Wordle() {
         const currentDate = moment(new Date()).format('DD');
         if (parseInt(firstInputDate) !== parseInt(currentDate)) {
             dispatch(resetTime());
+            dispatch(resetGuesses());
             dispatch(setResetCount())
             dispatch(setWordsGuessed(0));
             dispatch(closeShowModal());

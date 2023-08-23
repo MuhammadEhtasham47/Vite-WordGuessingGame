@@ -4,20 +4,15 @@ import { privateRequest } from '../apiRequests'
 import { openShowModal, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, setWordsGuessed } from '../redux/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { totalWordsArray } from '../utils/SortedWordsData'
-import { firstTimeInput, gameEndTime } from '../redux/timeSlice'
+import { firstTimeInput, gameEndTime, setGuessesForReload } from '../redux/timeSlice'
 
 const useWordle = (solution) => {
 
     const dispatch = useDispatch()
-
-    const [turn, setTurn] = useState(0)
-    const [currentGuess, setCurrentGuess] = useState('')
-    const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
-    const [isCorrect, setIsCorrect] = useState(false)
-    const [usedKeys, setUsedKeys] = useState({}) // {a: 'grey', b: 'green', c: 'yellow'} etc
-    const [incorrectGuess, setIncorrectGuess] = useState(0);
-
     const firstInput = useSelector((state) => state.time.firstInput)
+    const wordGuessesForReload = useSelector((state) => state.time.wordGuessesForReload)
+    const incorrectGuessesForReload = useSelector((state) => state.time.incorrectGuessesForReload)
+    const turnForReload = useSelector((state) => state.time.turnForReload)
     const currentStreak = useSelector((state) => state.user.currentStreak)
     const maxStreak = useSelector((state) => state.user.maxStreak)
     const bestTry = useSelector((state) => state.user.bestTry)
@@ -27,6 +22,26 @@ const useWordle = (solution) => {
     const wordsGuessed = useSelector((state) => state.user.wordsGuessed)
     const words = useSelector((state) => state.user.words)
     const userToken = useSelector((state) => state.auth.userToken)
+
+    const [turn, setTurn] = useState(turnForReload)
+    const [currentGuess, setCurrentGuess] = useState('')
+    // const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
+    const [guesses, setGuesses] = useState(wordGuessesForReload) // each guess is an array
+    const [isCorrect, setIsCorrect] = useState(false)
+    const [usedKeys, setUsedKeys] = useState({}) // {a: 'grey', b: 'green', c: 'yellow'} etc
+    // const [incorrectGuess, setIncorrectGuess] = useState(0);
+    const [incorrectGuess, setIncorrectGuess] = useState(incorrectGuessesForReload);
+
+    useEffect(() => {
+        if (turnForReload === 0) {
+            setGuesses([...Array(6)])
+            setUsedKeys({})
+            setTurn(0)
+            setIncorrectGuess(0)
+        }
+    }, [turnForReload])
+
+
 
     const handleSetStats = () => {
         let apiObject = {
