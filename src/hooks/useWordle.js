@@ -87,7 +87,9 @@ const useWordle = (solution) => {
 
             let currentWordArray = []
             if (words.length !== 0) {
-                currentWordArray = words[wordsGuessed].split('')
+                if (wordsGuessed < 20) {
+                    currentWordArray = words[wordsGuessed].split('')
+                }
             }
 
 
@@ -187,6 +189,7 @@ const useWordle = (solution) => {
                 dispatch(setGamesPlayed(newGamesPlayed));
                 dispatch(setGamesWon(newGamesWon));
                 dispatch(setCurrentStreak(0));
+                dispatch(gameEndTime());
                 if (userToken !== null) {
                     handleSetStats();
                 }
