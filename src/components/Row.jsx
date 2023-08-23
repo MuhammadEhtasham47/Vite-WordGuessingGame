@@ -16,7 +16,9 @@ export default function Row({ guess, currentGuess, incorrectGuess }) {
 
     useEffect(() => {
         if (words.length !== 0) {
-            setCurrentWordArray(words[wordsGuessed].split(''))
+            if (wordsGuessed < 20) {
+                setCurrentWordArray(words[wordsGuessed].split(''))
+            }
 
         }
     }, [words, wordsGuessed])

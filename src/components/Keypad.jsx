@@ -34,7 +34,9 @@ export default function Keypad({ usedKeys, handleKeyup, currentGuess }) {
 
     useEffect(() => {
         if (words.length !== 0) {
-            setCurrentWordArray(words[wordsGuessed].split(''))
+            if (wordsGuessed < 20) {
+                setCurrentWordArray(words[wordsGuessed].split(''))
+            }
 
         }
     }, [words, wordsGuessed])
