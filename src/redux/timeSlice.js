@@ -23,7 +23,6 @@ const timeSlice = createSlice({
             state.endTime = null;
         },
         setGuessesForReload: (state, action) => {
-            console.log('action.payload', action.payload);
             state.wordGuessesForReload = action.payload
         },
 

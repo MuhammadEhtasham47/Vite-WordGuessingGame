@@ -1,5 +1,5 @@
-import { Cancel, CheckCircleOutline, MoodBadOutlined } from '@mui/icons-material'
-import { Button, Typography } from '@mui/material'
+import { Cancel, CheckCircleOutline, HighlightOffOutlined, MoodBadOutlined } from '@mui/icons-material'
+import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeShowModal, setWordsGuessed } from '../redux/userSlice'
@@ -76,71 +76,74 @@ export default function ModalDetails({ handleReset }) {
 
 
     return (
-        <div style={{ borderRadius: '8px', width: '320px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <div style={{ width: '320px', borderRadius: '8px', position: 'relative' }}>
+            <Box sx={{ position: 'absolute', top: "-15px", right: '-30px' }}> <HighlightOffOutlined sx={{ cursor: 'pointer' }} onClick={() => { dispatch(closeShowModal()) }} /></Box>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
 
-            {wordsGuessed === 20 ? (
-                <div>
-                    <CheckCircleOutline sx={{ fontSize: 60, color: '#4caf50' }} />
-                    <Typography variant="h5" sx={{ marginBottom: '8px' }}>
-                        Congratulations! You Win!
-                    </Typography>
-                    <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                        You guessed 20 words in {calculateTime()}
-                    </Typography>
-                </div>
-            )
-                : wordsGuessed === 0 ? (
+                {wordsGuessed === 20 ? (
                     <div>
-                        <Cancel sx={{ fontSize: 60, color: '#f44336' }} />
+                        <CheckCircleOutline sx={{ fontSize: 60, color: '#4caf50' }} />
                         <Typography variant="h5" sx={{ marginBottom: '8px' }}>
-                            Game Overs!
+                            Congratulations! You Win!
                         </Typography>
-                        {/* <Typography variant="h5" sx={{ marginBottom: '8px' }}>
-                            Better Luck Next Time.
-                        </Typography> */}
                         <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                            You guessed {wordsGuessed} words in {calculateTime()}
+                            You guessed 20 words in {calculateTime()}
                         </Typography>
                     </div>
                 )
-                    : (
+                    : wordsGuessed === 0 ? (
                         <div>
-                            <MoodBadOutlined sx={{ fontSize: 60, color: '#ff9800' }} />
-                            <Typography variant="h5" sx={{ marginBottom: '8px', fontSize: '23px' }}>
-                                Nice Try, But Not Quite There.
+                            <Cancel sx={{ fontSize: 60, color: '#f44336' }} />
+                            <Typography variant="h5" sx={{ marginBottom: '8px' }}>
+                                Game Overs!
                             </Typography>
+                            {/* <Typography variant="h5" sx={{ marginBottom: '8px' }}>
+                            Better Luck Next Time.
+                        </Typography> */}
                             <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
-                                You guessed {wordsGuessed} {wordsGuessed === 1 ? 'word' : 'words'} in {calculateTime()}.
+                                You guessed {wordsGuessed} words in {calculateTime()}
                             </Typography>
                         </div>
-                    )}
-            <CopyToClipboard text={`Foreverdle #3\n${wordsGuessed}/20 words solved in ${calculateTime()}\nhttps://foreverdle.com\n#foreverdle`}>
-                <Button
-                    variant="outlined"
-                    onClick={() => {
-                        toast.success('Copied to clipboard')
-                    }}
-                    sx={{
-                        mt: '20px',
-                        backgroundColor: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)',
-                        color: themeMode === 'light' ? "#202537" : '#FFF',
-                        borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                        '&:hover': {
+                    )
+                        : (
+                            <div>
+                                <MoodBadOutlined sx={{ fontSize: 60, color: '#ff9800' }} />
+                                <Typography variant="h5" sx={{ marginBottom: '8px', fontSize: '23px' }}>
+                                    Nice Try, But Not Quite There.
+                                </Typography>
+                                <Typography variant="body1" sx={{ marginBottom: '8px', color: themeMode === 'light' ? "#202537" : '#FFF', }}>
+                                    You guessed {wordsGuessed} {wordsGuessed === 1 ? 'word' : 'words'} in {calculateTime()}.
+                                </Typography>
+                            </div>
+                        )}
+                <CopyToClipboard text={`Foreverdle #3\n${wordsGuessed}/20 words solved in ${calculateTime()}\nhttps://foreverdle.com\n#foreverdle`}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => {
+                            toast.success('Copied to clipboard')
+                        }}
+                        sx={{
+                            mt: '20px',
+                            backgroundColor: themeMode === 'light' ? '#F3F3F3' : 'rgba(218, 220, 224, 0.03)',
+                            color: themeMode === 'light' ? "#202537" : '#FFF',
                             borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                        },
-                        '&:active': {
-                            borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                            boxShadow: 'none',
-                        },
-                        '&:focus': {
-                            borderColor: themeMode === 'light' ? "#202537" : '#FFF',
-                            outline: 'none',
-                        },
-                    }}
-                >
-                    Share
-                </Button>
-            </CopyToClipboard>
-        </div >
+                            '&:hover': {
+                                borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                            },
+                            '&:active': {
+                                borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                                boxShadow: 'none',
+                            },
+                            '&:focus': {
+                                borderColor: themeMode === 'light' ? "#202537" : '#FFF',
+                                outline: 'none',
+                            },
+                        }}
+                    >
+                        Share
+                    </Button>
+                </CopyToClipboard>
+            </div >
+        </div>
     )
 }
