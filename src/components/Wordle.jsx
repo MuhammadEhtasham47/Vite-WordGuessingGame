@@ -12,7 +12,7 @@ import Help from './Help'
 import { Stats } from './Stats'
 import moment from 'moment/moment'
 import { resetGuesses, resetTime, setGuessesForReload, setIncorrectGuessesForReload, setTurnForReload } from '../redux/timeSlice'
-import { closeShowModal, setResetCount, setWordsGuessed } from '../redux/userSlice'
+import { closeShowModal, openShowModal, setResetCount, setWordsGuessed } from '../redux/userSlice'
 
 
 const MainContainer = styled(Box)(() => ({
@@ -44,6 +44,7 @@ export default function Wordle() {
         setInnerWidth(window.innerWidth);
     };
 
+
     useEffect(() => {
         window.addEventListener('resize', handleResize);
 
@@ -56,6 +57,9 @@ export default function Wordle() {
         dispatch(setGuessesForReload(guesses))
         dispatch(setIncorrectGuessesForReload(incorrectGuess))
         dispatch(setTurnForReload(turn))
+        if (incorrectGuess === 6) {
+            dispatch(openShowModal())
+        }
     }, [turn, incorrectGuess])
 
     useEffect(() => {
