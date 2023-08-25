@@ -73,7 +73,17 @@ export default function ModalDetails({ handleReset }) {
         return string;
     };
 
+    const daysPassed = () => {
 
+        const today = moment();
+        const start = moment('2023-08-24');
+
+        // Calculate the difference in days
+        const days = today.diff(start, 'days');
+
+        return days;
+
+    }
 
     return (
         <div style={{ width: '320px', borderRadius: '8px', position: 'relative' }}>
@@ -116,7 +126,7 @@ export default function ModalDetails({ handleReset }) {
                                 </Typography>
                             </div>
                         )}
-                <CopyToClipboard text={`Foreverdle #3\n${wordsGuessed}/20 words solved in ${calculateTime()}\nhttps://foreverdle.com\n#foreverdle`}>
+                <CopyToClipboard text={`Foreverdle #${daysPassed()}\n${wordsGuessed}/20 words solved in ${calculateTime()}\nhttps://foreverdle.com\n#foreverdle`}>
                     <Button
                         variant="outlined"
                         onClick={() => {
