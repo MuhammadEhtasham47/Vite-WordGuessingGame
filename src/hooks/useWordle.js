@@ -204,7 +204,7 @@ const useWordle = (solution) => {
                         dispatch(setMaxStreak((maxStreak + 1)))
                     } else {
                         // Reset current streak
-                        dispatch(setCurrentStreak((0)))
+                        dispatch(setCurrentStreak((1)))
                     }
                 }
 
@@ -243,7 +243,7 @@ const useWordle = (solution) => {
                         dispatch(setMaxStreak((maxStreak + 1)))
                     } else {
                         // Reset current streak
-                        dispatch(setCurrentStreak((0)))
+                        dispatch(setCurrentStreak((1)))
                     }
                 }
 
