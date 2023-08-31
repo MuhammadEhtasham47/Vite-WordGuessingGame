@@ -5,7 +5,9 @@ const initialState = {
     endTime: null, // for storing the
     wordGuessesForReload: [...Array(6)],
     incorrectGuessesForReload: 0,
-    turnForReload: 0
+    turnForReload: 0,
+    isPlayed: false,
+    lastPlayed: null,
 }
 
 const timeSlice = createSlice({
@@ -37,9 +39,15 @@ const timeSlice = createSlice({
             state.wordGuessesForReload = [...Array(6)]
             state.incorrectGuessesForReload = 0
             state.turnForReload = 0
+        },
+        setLastPlayed: (state, action) => {
+            state.lastPlayed = action.payload
+        },
+        setIsPlayed: (state, action) => {
+            state.isPlayed = action.payload
         }
     }
 })
-export const { firstTimeInput, resetTime, gameEndTime, setGuessesForReload, resetGuesses, setIncorrectGuessesForReload, setTurnForReload } = timeSlice.actions;
+export const { setIsPlayed, setLastPlayed, firstTimeInput, resetTime, gameEndTime, setGuessesForReload, resetGuesses, setIncorrectGuessesForReload, setTurnForReload } = timeSlice.actions;
 
 export default timeSlice.reducer

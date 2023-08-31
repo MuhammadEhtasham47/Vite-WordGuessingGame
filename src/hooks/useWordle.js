@@ -4,12 +4,14 @@ import { privateRequest } from '../apiRequests'
 import { openShowModal, setBestTry, setCurrentStreak, setGamesPlayed, setGamesWon, setMaxStreak, setWinPercentage, setWordsGuessed } from '../redux/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { totalWordsArray } from '../utils/SortedWordsData'
-import { firstTimeInput, gameEndTime, setGuessesForReload } from '../redux/timeSlice'
+import { firstTimeInput, gameEndTime, setGuessesForReload, setIsPlayed, setLastPlayed } from '../redux/timeSlice'
+import moment from 'moment'
 
 const useWordle = (solution) => {
 
     const dispatch = useDispatch()
     const firstInput = useSelector((state) => state.time.firstInput)
+    const lastPlayed = useSelector((state) => state.time.lastPlayed)
     const wordGuessesForReload = useSelector((state) => state.time.wordGuessesForReload)
     const incorrectGuessesForReload = useSelector((state) => state.time.incorrectGuessesForReload)
     const turnForReload = useSelector((state) => state.time.turnForReload)
@@ -32,12 +34,16 @@ const useWordle = (solution) => {
     // const [incorrectGuess, setIncorrectGuess] = useState(0);
     const [incorrectGuess, setIncorrectGuess] = useState(incorrectGuessesForReload);
 
+
+    console.log('lastPlayed', lastPlayed);
+
     useEffect(() => {
         if (turnForReload === 0) {
             setGuesses([...Array(6)])
             setUsedKeys({})
             setTurn(0)
             setIncorrectGuess(0)
+            dispatch(firstTimeInput(null))
         }
     }, [turnForReload])
 
@@ -167,28 +173,49 @@ const useWordle = (solution) => {
             dispatch(setWordsGuessed(newWordsGuessed))
 
             let newGamesWon = gamesWon + 1;
-            let newCurrentStreak = currentStreak + 1;
+            // let newCurrentStreak = currentStreak + 1;
             // let newBestTry = currentStreak + 1;
             let newGamesPlayed = gamesPlayed + 1
 
             // newWordsGusseed !== 20 which mean calculate  current streak
-            dispatch(setCurrentStreak(newCurrentStreak));
+            // dispatch(setCurrentStreak(newCurrentStreak));
             if (newWordsGuessed > bestTry) {
                 dispatch(setBestTry(newWordsGuessed));
             }
-            if (newCurrentStreak > maxStreak) {
-                dispatch(setMaxStreak(newCurrentStreak));
-            }
+            // if (newCurrentStreak > maxStreak) {
+            //     dispatch(setMaxStreak(newCurrentStreak));
+            // }
 
             //Calculate Win Percentage + Games Played + Games Won
             if (newWordsGuessed === 20) {
+
+                if (lastPlayed === null) {
+                    dispatch(setLastPlayed(new Date()))
+                    dispatch(setCurrentStreak(1))
+                    dispatch(setMaxStreak(1))
+                } else {
+                    const lastPlayedMoment = moment(lastPlayed); // Example date
+                    const currentDate = moment();
+                    const dayDifference = currentDate.diff(lastPlayedMoment, 'days');
+                    dispatch(setLastPlayed(new Date()))
+                    if (dayDifference === 1) {
+                        // Increase current streak and update max streak
+                        dispatch(setCurrentStreak((currentStreak + 1)))
+                        dispatch(setMaxStreak((maxStreak + 1)))
+                    } else {
+                        // Reset current streak
+                        dispatch(setCurrentStreak((0)))
+                    }
+                }
+
+                // dispatch(setIsPlayed(true))
                 dispatch(openShowModal());
                 let winPercentage = (newGamesWon / (newGamesPlayed)) * 100;
                 winPercentage = Math.round(winPercentage)
                 dispatch(setWinPercentage(winPercentage));
                 dispatch(setGamesPlayed(newGamesPlayed));
                 dispatch(setGamesWon(newGamesWon));
-                dispatch(setCurrentStreak(0));
+                // dispatch(setCurrentStreak(0));
                 dispatch(gameEndTime());
                 if (userToken !== null) {
                     handleSetStats();
@@ -200,9 +227,29 @@ const useWordle = (solution) => {
             let newIncorrectGuesses = incorrectGuess + 1
             // Game should end you lost and reset stats
             if (newIncorrectGuesses === 6) {
+
+                if (lastPlayed === null) {
+                    dispatch(setLastPlayed(new Date()))
+                    dispatch(setCurrentStreak(1))
+                    dispatch(setMaxStreak(1))
+                } else {
+                    const lastPlayedMoment = moment(lastPlayed); // Example date
+                    const currentDate = moment();
+                    const dayDifference = currentDate.diff(lastPlayedMoment, 'days');
+                    dispatch(setLastPlayed(new Date()))
+                    if (dayDifference === 1) {
+                        // Increase current streak and update max streak
+                        dispatch(setCurrentStreak((currentStreak + 1)))
+                        dispatch(setMaxStreak((maxStreak + 1)))
+                    } else {
+                        // Reset current streak
+                        dispatch(setCurrentStreak((0)))
+                    }
+                }
+
                 let newGamesPlayed = gamesPlayed + 1
                 dispatch(setGamesPlayed(newGamesPlayed));
-                dispatch(setCurrentStreak(0))
+                // dispatch(setCurrentStreak(0))
                 let newWinPercentage = ((gamesWon) / (newGamesPlayed)) * 100;
                 newWinPercentage = Math.round(newWinPercentage)
                 dispatch(setWinPercentage(newWinPercentage));
@@ -213,10 +260,10 @@ const useWordle = (solution) => {
                 }
             }
             //You have tries left but the word is incorrect
-            else {
-                dispatch(setCurrentStreak(0));
-                // dispatch(setMaxStreak(0));
-            }
+            // else {
+            // dispatch(setCurrentStreak(0));
+            // dispatch(setMaxStreak(0));
+            // }
         }
 
         setGuesses(prevGuesses => {
